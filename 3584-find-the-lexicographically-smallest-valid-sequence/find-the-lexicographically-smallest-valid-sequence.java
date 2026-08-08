@@ -33,11 +33,7 @@ class Solution {
             }
             i++;
         }
-       if(j==m) {
-        return sequence;
-       }
-       else {
-        return new int[0];
-       }
+       if(j==m) return sequence;
+       else return new int[0];
     }
 }
