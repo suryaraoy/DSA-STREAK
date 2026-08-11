@@ -8,9 +8,9 @@ class Solution {
             else break;
         }
         HashSet<Integer> set=new HashSet<>();
-        for(int i=0;i<nums.length;i++){
-            set.add(nums[i]);
-        }
+      for(int n : nums){
+        set.add(n);
+      }
         while(set.contains(sequential)){
             sequential++;
         }
