@@ -5,7 +5,7 @@ class Solution {
         for(int i=0;i<n;i++){
            int c= s.charAt(i)-'a' + 1;
            int reverse= 27-c;
-           total=total+(reverse*(i+1));
+           total=total+((27-c)*(i+1));
         }
         return total;
     }
