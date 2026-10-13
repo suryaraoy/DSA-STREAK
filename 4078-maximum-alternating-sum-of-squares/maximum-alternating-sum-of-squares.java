@@ -5,11 +5,14 @@ class Solution {
             nums[i]*=nums[i];
         }
         Arrays.sort(nums);
-        long ans=0;
-        int m=n>>1;
-        for(int i=0;i<n;i++){
-            ans+=i<m?-nums[i] : nums[i];
+        long min=0;
+        for(int i=0;i<n/2;i++){
+            min=min+nums[i];
         }
-        return ans;
+        long max=0;
+        for(int i=n/2;i<n;i++){
+            max=max+nums[i];
+        }
+        return max-min;
     }
 }
