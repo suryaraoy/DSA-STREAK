@@ -1,40 +1,47 @@
 class Solution {
+
     public int minSwaps(int[] nums) {
-        int n=nums.length;
-        int ans = 0;
-    Set<Integer> seen = new HashSet<>();
-    Map<Integer, Integer> numToIndex = new HashMap<>();
-    int[] sortedNums = Arrays.stream(nums)
-                           .boxed()
-                           .sorted(Comparator.comparingInt((Integer num) -> getDigitSum(num))
-                                       .thenComparingInt(num -> num))
-                           .mapToInt(Integer::intValue)
-                           .toArray();
+        int n = nums.length;
+        int[] digitSum = new int[n];
+        for (int i = 0; i < n; i++) {
+            int x = nums[i],
+                sum = 0;
+            while (x > 0) {
+                sum += x % 10;
+                x /= 10;
+            }
+            digitSum[i] = sum;
+        }
 
-    for (int i = 0; i < sortedNums.length; ++i)
-      numToIndex.put(sortedNums[i], i);
+        Integer[] indices = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            indices[i] = i;
+        }
+        Arrays.sort(indices, (a, b) -> {
+            if (digitSum[a] != digitSum[b]) {
+                return Integer.compare(digitSum[a], digitSum[b]);
+            }
+            return Integer.compare(nums[a], nums[b]);
+        });
 
-    for (int i = 0; i < nums.length; ++i) {
-      if (seen.contains(i) || numToIndex.get(nums[i]) == i)
-        continue;
-      int cycleSize = 0;
-      int j = i;
-      while (seen.add(j)) {
-        j = numToIndex.get(nums[j]);
-        ++cycleSize;
-      }
-      ans += Math.max(cycleSize - 1, 0);
-    }
+        int[] targetPos = new int[n];
+        for (int pos = 0; pos < n; pos++) {
+            targetPos[indices[pos]] = pos;
+        }
 
-    return ans;
-  }
+        boolean[] visited = new boolean[n];
+        int cycles = 0;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                cycles++;
+                int j = i;
+                while (!visited[j]) {
+                    visited[j] = true;
+                    j = targetPos[j];
+                }
+            }
+        }
 
-  private int getDigitSum(int num) {
-    int sum = 0;
-    while (num > 0) {
-      sum += num % 10;
-      num /= 10;
-    }
-    return sum;
+        return n - cycles;
     }
 }
