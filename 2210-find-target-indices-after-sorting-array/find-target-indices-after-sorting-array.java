@@ -7,8 +7,8 @@ class Solution {
             if(nums[i]<target) small++;
             if(nums[i]==target) count++;
         }
-        for(int i=small;i<count+small;i++){
-            list.add(i);
+        for(int i=0;i<count;i++){
+            list.add(i+small);
         }
         return list;
     }
