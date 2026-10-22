@@ -1,45 +1,37 @@
 class Solution {
     public int minOperations(int[] nums) {
-        int n = nums.length;
-        int idx = -1;
+        final int n = nums.length;
+        if (n == 1) {
+            return 0;
+        }
 
-        for(int i = 0; i<n; i++){
-            if(nums[i] == 0){
-                idx = i;
-                break;
+        int start = 0;
+        while (nums[start] != 0) {
+            start++;
+        }
+
+        boolean asc = true;
+        boolean desc = true;
+
+        for (int i = 1; i < n; i++) {
+            int value = nums[(start + i) % n];
+
+            if (value != i) {
+                asc = false;
+            }
+            if (value != n - i) {
+                desc = false;
+            }
+
+            if (!asc && !desc) {
+                return -1;
             }
         }
 
-        boolean isInc = true;
-        boolean isDec = true;
-
-        for(int i=0; i<n; i++){
-            int curr = nums[(idx + i) % n];
-            int increase = i;
-            int decrease = (n - i) % n;
-
-            if(curr != increase) isInc = false;
-            if(curr != decrease) isDec = false;
+        if (asc) {
+            return Math.min(start, n - start + 2);
         }
 
-        int minOp = Integer.MAX_VALUE; 
-        
-        if(isInc){
-            int optA = idx;
-
-            int optB = n - idx + 2;
-
-            minOp = Math.min(optA, optB);
-        }
-
-        if(isDec){
-            int optA = idx + 2;
-
-            int optB = n - idx;
-
-            minOp = Math.min(minOp ,Math.min(optA, optB));
-        }
-
-        return minOp == Integer.MAX_VALUE ? -1 : minOp;
+        return Math.min(n - start, start + 2);
     }
 }
