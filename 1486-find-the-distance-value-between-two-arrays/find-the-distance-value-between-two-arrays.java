@@ -6,7 +6,10 @@ class Solution {
             int arr=arr1[i];
             boolean valid=true;
             for(int j=0;j<arr2.length;j++){
-                if(Math.abs(arr-arr2[j])<=d) valid=false;
+                if(Math.abs(arr-arr2[j])<=d){
+                       valid=false;
+                       break;
+                }
             }
             if(valid) count++;
         }
